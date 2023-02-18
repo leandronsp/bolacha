@@ -5,11 +5,20 @@ SHELL = /bin/bash
 help: ## Prints available commands
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage: make \033[36m<target>\033[0m\n"} /^[.a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-setup: ## Setup the application
+setup: ## Setup everything
 	@bin/setup
 
-nginx.pf: ## Port-forward NGINX to the port 8080
-	@kubectl port-forward deploy/nginx-pod 8080:80
+nginx.pf: ## Port-forward NGINX to the port 4000
+	@kubectl port-forward deploy/nginx-pod 4000:80
 
 nginx.test: ## Run the NGINX configuration test
 	@kubectl exec deploy/nginx-pod -- nginx -t
+
+prom.pf: ## Port-forward Prometheus to the port 9090
+	@kubectl -n monitoring port-forward deploy/prometheus-pod 9090:9090
+
+grafana.pf: ## Port-forward Grafana to the port 3000
+	@kubectl -n monitoring port-forward deploy/grafana-pod 3000:3000
+
+kube-state-metrics.pf: ## Port-forward kube-state-metrics to the port 8080
+	@kubectl -n kube-system port-forward deploy/kube-state-metrics-pod 8080:8080

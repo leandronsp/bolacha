@@ -1,3 +1,12 @@
 #!/bin/bash
 
+### Monitoring
+kubectl create namespace monitoring
+kubectl apply -f ./monitoring/kube-state-metrics/
+
+kubectl apply -f ./monitoring/node-exporter/ --namespace monitoring
+kubectl apply -f ./monitoring/prometheus/ --namespace monitoring
+kubectl apply -f ./monitoring/grafana/ --namespace monitoring
+
+### Application
 kubectl apply -f app/

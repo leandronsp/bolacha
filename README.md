@@ -37,4 +37,12 @@ $ make nginx.test
 $ make nginx.pf
 ```
 
-Open `http://localhost:8080`
+Open `http://localhost:4000`
+
+## Monitoring dashboard
+
+```bash
+$ make grafana.pf
+```
+
+Open `http://localhost:3000`
