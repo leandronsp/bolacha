@@ -1,12 +1,28 @@
 #!/bin/bash
 
+### Application
+kubectl apply -f app/
+
+### CI/CD
+kubectl apply \
+  --filename \
+  https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+
+kubectl apply \
+  --filename \
+  https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml
+
+kubectl apply \
+  --filename \
+  https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml
+
+kubectl apply \
+  --filename \
+  https://storage.googleapis.com/tekton-releases/dashboard/latest/release-full.yaml
+
 ### Monitoring
 kubectl create namespace monitoring
 kubectl apply -f ./monitoring/kube-state-metrics/
-
 kubectl apply -f ./monitoring/node-exporter/ --namespace monitoring
 kubectl apply -f ./monitoring/prometheus/ --namespace monitoring
 kubectl apply -f ./monitoring/grafana/ --namespace monitoring
-
-### Application
-kubectl apply -f app/
