@@ -28,3 +28,12 @@ tekton.pf: ## Port-forward Tekton Dashboard to the port 9097
 
 tekton.triggers.pf: ## Port-forward Tekton triggers to the port 8443
 	@kubectl -n tekton-pipelines port-forward svc/tekton-triggers-core-interceptors 8443:8443
+
+tekton.el.pf: ## Port-forward Tekton Event Listener to the port 8080
+	@kubectl port-forward svc/el-github-pr 8080:8080
+
+tekton.triggers.ngrok: ## NGROK Tekton triggers webhook
+	@ngrok http https://localhost:8443
+
+tekton.el.ngrok: ## NGROK Tekton Event Listener Webhook
+	@ngrok http https://localhost:8080

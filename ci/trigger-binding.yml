@@ -5,6 +5,6 @@ metadata:
 spec:
   params:
   - name: revision
-    value: $(body.head_commit.id)
+    value: $(body.pull_request.head.sha)
   - name: repo-url
-    value: $(body.repository.url)
+    value: $(body.repository.ssh_url)

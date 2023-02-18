@@ -3,17 +3,15 @@ kind: EventListener
 metadata:
   name: github-pr
 spec:
+  serviceAccountName: tekton-triggers-sa
   triggers:
     - name: github-trigger
       interceptors:
-        - name: "validate GitHub payload and filter on eventType"
-          ref:
+        - ref:
             name: "github"
+            kind: ClusterInterceptor
+            apiVersion: triggers.tekton.dev
           params:
-            - name: "secretRef"
-              value:
-                secretName: github-webhook-secret
-                secretKey: secretToken
             - name: "eventTypes"
               value: ["pull_request"]
       bindings:

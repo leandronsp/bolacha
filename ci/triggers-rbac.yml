@@ -10,7 +10,7 @@ metadata:
 rules:
 # EventListeners need to be able to fetch all namespaced resources
 - apiGroups: ["triggers.tekton.dev"]
-  resources: ["eventlisteners", "triggerbindings", "triggertemplates", "triggers"]
+  resources: ["eventlisteners", "triggerbindings", "triggertemplates", "triggers", "interceptors"]
   verbs: ["get", "list", "watch"]
 - apiGroups: [""]
 # configmaps is needed for updating logging config
@@ -47,7 +47,7 @@ metadata:
 rules:
   # EventListeners need to be able to fetch any clustertriggerbindings
 - apiGroups: ["triggers.tekton.dev"]
-  resources: ["clustertriggerbindings", "clusterinterceptors"]
+  resources: ["clustertriggerbindings", "clusterinterceptors", "interceptors"]
   verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
