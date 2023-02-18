@@ -46,3 +46,11 @@ $ make grafana.pf
 ```
 
 Open `http://localhost:3000`
+
+## Tekton CI Dashboard
+
+```bash
+$ make tekton.pf
+```
+
+Open `http://localhost:9097`
