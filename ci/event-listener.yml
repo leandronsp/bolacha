@@ -14,12 +14,16 @@ spec:
           params:
             - name: "eventTypes"
               value: ["pull_request"]
+      bindings:
+        - ref: github-pr-binding
+      template:
+        ref: github-pr-template
     - name: push-trigger
       interceptors:
         - ref:
-          name: "github"
-          kind: ClusterInterceptor
-          apiVersion: triggers.tekton.dev
+            name: "github"
+            kind: ClusterInterceptor
+            apiVersion: triggers.tekton.dev
           params:
             - name: "eventTypes"
               value: ["push"]
