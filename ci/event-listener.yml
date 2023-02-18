@@ -8,14 +8,12 @@ spec:
     - name: pr-trigger
       interceptors:
         - ref:
-            name: "github"
+            name: "cel"
             kind: ClusterInterceptor
             apiVersion: triggers.tekton.dev
           params:
-            - name: "eventTypes"
-              value: ["pull_request"]
             - name: "filter"
-              value: "body.action in ['opened', 'synchronize']"
+              value: "header['X-Github-Event'] == 'pull_request' && body.action in ['opened', 'synchronize']"
       bindings:
         - ref: github-pr-binding
       template:
