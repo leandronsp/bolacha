@@ -35,5 +35,5 @@ tekton.el.pf: ## Port-forward Tekton Event Listener to the port 8080
 tekton.triggers.ngrok: ## NGROK Tekton triggers webhook
 	@ngrok http https://localhost:8443
 
-tekton.el.ngrok: ## NGROK Tekton Event Listener Webhook
+tekton.el.ngrok: ## NGROK Tekton Event Listener webhook
 	@ngrok http https://localhost:8080
