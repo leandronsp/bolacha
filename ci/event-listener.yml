@@ -27,6 +27,8 @@ spec:
           params:
             - name: "eventTypes"
               value: ["push"]
+            - name: "filter"
+              value: "body.ref == 'refs/heads/main'"
       bindings:
         - ref: github-pr-binding
       template:
