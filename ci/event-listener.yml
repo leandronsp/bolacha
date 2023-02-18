@@ -14,7 +14,7 @@ spec:
           params:
             - name: "filter"
               value: >
-                header['X-Github-Event'] == 'pull_request' && body.action in ['opened', 'synchronize']
+                header.match('x-github-event', 'pull_request') && body.action in ['opened', 'synchronize']
       bindings:
         - ref: github-pr-binding
       template:
@@ -28,7 +28,7 @@ spec:
           params:
             - name: "filter"
               value: >
-                header['X-Github-Event'] == 'push' && body.ref == 'refs/heads/main'
+                header.match('x-github-event', 'push') && body.ref == 'refs/heads/main'
       bindings:
         - ref: github-pr-binding
       template:
