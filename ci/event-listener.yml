@@ -15,7 +15,7 @@ spec:
             - name: "eventTypes"
               value: ["pull_request"]
             - name: "filter"
-              value: "body.action in ['opened', 'reopened', 'synchronize']"
+              value: "body.action in ['opened', 'synchronize']"
       bindings:
         - ref: github-pr-binding
       template:
