@@ -13,7 +13,8 @@ spec:
             apiVersion: triggers.tekton.dev
           params:
             - name: "filter"
-              value: "header['X-Github-Event'] == 'pull_request' && body.action in ['opened', 'synchronize']"
+              value: >
+                header['X-Github-Event'] == 'pull_request' && body.action in ['opened', 'synchronize']
       bindings:
         - ref: github-pr-binding
       template:
@@ -26,7 +27,8 @@ spec:
             apiVersion: triggers.tekton.dev
           params:
             - name: "filter"
-              value: "header['X-Github-Event'] == 'push' && body.ref == 'refs/heads/main'"
+              value: >
+                header['X-Github-Event'] == 'push' && body.ref == 'refs/heads/main'
       bindings:
         - ref: github-pr-binding
       template:
