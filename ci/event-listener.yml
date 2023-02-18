@@ -9,8 +9,6 @@ spec:
       interceptors:
         - ref:
             name: "github"
-            kind: ClusterInterceptor
-            apiVersion: triggers.tekton.dev
           params:
             - name: "eventTypes"
               value: ["pull_request"]
@@ -18,17 +16,13 @@ spec:
         - ref: github-pr-binding
       template:
         ref: github-pr-template
-    - name: push-trigger
+    - name: push-main-trigger
       interceptors:
         - ref:
-            name: "github"
-            kind: ClusterInterceptor
-            apiVersion: triggers.tekton.dev
+            name: "cel"
           params:
-            - name: "eventTypes"
-              value: ["push"]
             - name: "filter"
-              value: "body.ref == 'refs/heads/main'"
+              value: "header['X-Github-Event'] == 'push' && body.ref == 'refs/heads/main'"
       bindings:
         - ref: github-pr-binding
       template:
