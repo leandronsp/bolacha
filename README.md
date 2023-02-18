@@ -54,3 +54,12 @@ $ make tekton.pf
 ```
 
 Open `http://localhost:9097`
+
+## Testing Github Webhooks locally
+
+```bash
+$ make tekton.el.pf
+$ make tekton.el.ngrok
+```
+
+Updating the webook in the Github repository settings and open `http://localhost:9097`
