@@ -5,7 +5,7 @@ metadata:
 spec:
   serviceAccountName: tekton-triggers-sa
   triggers:
-    - name: github-trigger
+    - name: pr-trigger
       interceptors:
         - ref:
             name: "github"
@@ -14,6 +14,15 @@ spec:
           params:
             - name: "eventTypes"
               value: ["pull_request"]
+    - name: push-trigger
+      interceptors:
+        - ref:
+          name: "github"
+          kind: ClusterInterceptor
+          apiVersion: triggers.tekton.dev
+          params:
+            - name: "eventTypes"
+              value: ["push"]
       bindings:
         - ref: github-pr-binding
       template:
