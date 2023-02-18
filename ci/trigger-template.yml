@@ -1,0 +1,39 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: github-pr-template
+spec:
+  params:
+  - name: revision
+    description: The git revision
+    default: main
+  - name: repo-url
+    description: The git repository url
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: bolacha-run-
+    spec:
+      pipelineRef:
+        name: bolacha-pipeline
+      podTemplate:
+        securityContext:
+          fsGroup: 65532
+      workspaces:
+      - name: shared-data
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+      - name: ssh-directory
+        secret:
+          secretName: ssh-directory
+      params:
+      - name: repo-url
+        value: ${tt.params.repo-url}
+      - name: revision
+        value: ${tt.params.revision}

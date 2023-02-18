@@ -1,0 +1,22 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: github-pr
+spec:
+  triggers:
+    - name: github-trigger
+      interceptors:
+        - name: "validate GitHub payload and filter on eventType"
+          ref:
+            name: "github"
+          params:
+            - name: "secretRef"
+              value:
+                secretName: github-webhook-secret
+                secretKey: secretToken
+            - name: "eventTypes"
+              value: ["pull_request"]
+      bindings:
+        - ref: github-pr-binding
+      template:
+        ref: github-pr-template
