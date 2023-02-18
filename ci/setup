@@ -1,0 +1,13 @@
+#!/bin/bash
+
+kubectl apply -f \
+  https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml
+
+kubectl create secret generic \
+  ssh-directory \
+  --from-file=id_ed25519=$HOME/.ssh/id_ed25519 \
+  --dry-run=client \
+  -o yaml | kubectl apply -f -
+
+kubectl apply -f ci/pipeline.yml
+kubectl create -f ci/pipeline-run.yml

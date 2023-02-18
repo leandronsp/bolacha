@@ -1,0 +1,85 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: bolacha-pipeline
+spec:
+  description: |
+    This pipeline clones a git repo, then runs the test suite.
+  params:
+  - name: repo-url
+    type: string
+    description: The git repo URL to clone from.
+  workspaces:
+  - name: shared-data
+    description: |
+      This workspace contains the cloned repo files, so they can be read by the
+      next task.
+  - name: ssh-directory
+    description: My ssh directory
+  tasks:
+  - name: fetch-source
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-data
+    - name: ssh-directory
+      workspace: ssh-directory
+    params:
+    - name: url
+      value: $(params.repo-url)
+  - name: nginx-test
+    runAfter: ["fetch-source"]
+    taskRef:
+      name: nginx-test
+    workspaces:
+    - name: source
+      workspace: shared-data
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: nginx-test
+spec:
+  workspaces:
+  - name: source
+  steps:
+  - name: nginx-test
+    image: docker
+    env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2376
+      - name: DOCKER_TLS_VERIFY
+        value: "1"
+      - name: DOCKER_CERT_PATH
+        value: "/certs/client"
+    volumeMounts:
+      - mountPath: /certs/client
+        name: dind-certs
+    workingDir: $(workspaces.source.path)
+    script: |
+      docker build -t nginx-app app/
+      docker run nginx-app bash -c "nginx -t"
+  sidecars:
+  - name: dind
+    image: docker:dind
+    securityContext:
+      privileged: true
+    args:
+      - --storage-driver=vfs
+      - --userland-proxy=false
+      - --debug
+    env:
+      - name: DOCKER_TLS_CERTDIR
+        value: /certs
+    volumeMounts:
+      - mountPath: /certs/client
+        name: dind-certs
+    readinessProbe:
+      periodSeconds: 1
+      exec:
+        command: ['ls', '/certs/client/ca.pem']
+  volumes:
+    - name: dind-certs
+      emptyDir: {}

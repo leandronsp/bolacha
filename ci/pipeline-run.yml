@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: bolacha-run-
+spec:
+  pipelineRef:
+    name: bolacha-pipeline
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  - name: ssh-directory
+    secret:
+      secretName: ssh-directory
+  params:
+  - name: repo-url
+    value: git@github.com:leandronsp/bolacha.git
