@@ -28,4 +28,3 @@ tekton.pf: ## Port-forward Tekton Dashboard to the port 9097
 
 tekton.triggers.pf: ## Port-forward Tekton triggers to the port 8443
 	@kubectl -n tekton-pipelines port-forward svc/tekton-triggers-core-interceptors 8443:8443
-
