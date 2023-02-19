@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: github-pr
+  name: github-el
 spec:
   serviceAccountName: tekton-triggers-sa
   triggers:
@@ -16,9 +16,9 @@ spec:
               value: >
                 header.match('x-github-event', 'pull_request') && body.action in ['opened', 'synchronize']
       bindings:
-        - ref: github-pr-binding
+        - ref: github-ci-binding
       template:
-        ref: github-pr-template
+        ref: github-ci-template
     - name: push-main-trigger
       interceptors:
         - ref:
@@ -30,6 +30,6 @@ spec:
               value: >
                 header.match('x-github-event', 'push') && body.ref == 'refs/heads/main'
       bindings:
-        - ref: github-pr-binding
+        - ref: github-ci-binding
       template:
-        ref: github-pr-template
+        ref: github-ci-template

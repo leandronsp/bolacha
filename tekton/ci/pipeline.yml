@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: bolacha-pipeline
+  name: bolacha-ci-pipeline
 spec:
   description: |
     This pipeline clones a git repo, then runs the test suite.

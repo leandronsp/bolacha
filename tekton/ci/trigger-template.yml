@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
-  name: github-pr-template
+  name: github-ci-template
 spec:
   params:
   - name: revision
@@ -16,7 +16,7 @@ spec:
       generateName: bolacha-run-
     spec:
       pipelineRef:
-        name: bolacha-pipeline
+        name: bolacha-ci-pipeline
       podTemplate:
         securityContext:
           fsGroup: 65532
