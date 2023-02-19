@@ -29,7 +29,7 @@ kubectl create secret generic \
   --dry-run=client \
   -o yaml | kubectl apply -f -
 
-kubectl apply -f ci/
+kubectl apply -f tekton/ci
 
 ### Monitoring
 kubectl create namespace monitoring
