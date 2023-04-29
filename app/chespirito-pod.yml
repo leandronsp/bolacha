@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: nginx-pod
-  name: nginx-pod
+    app: chespirito-pod
+  name: chespirito-pod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx-pod
+      app: chespirito-pod
   template:
     metadata:
       labels:
-        app: nginx-pod
+        app: chespirito-pod
     spec:
       containers:
-        - image: colima:31320/nginx
+        - image: colima:31320/chespirito
           imagePullPolicy: Always
-          name: nginx
+          name: app
           ports:
-          - containerPort: 80
+          - containerPort: 3000
